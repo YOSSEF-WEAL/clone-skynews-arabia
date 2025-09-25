@@ -1,21 +1,19 @@
-import { BASE_URL } from "./apisConfig";
+import { BASE_URL, API_HEADERS, handleApiResponse } from "./apisConfig";
 
 const apiGetCategorie = async (categorieId) => {
   try {
     const res = await fetch(
       `${BASE_URL}/wp-json/wp/v2/categories/${categorieId}`,
       {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_API_KEY}`,
-          "Content-Type": "application/json",
-        },
+        headers: API_HEADERS,
+        next: { revalidate: 3600 },
       }
     );
-    const allCategorie = await res.json();
-    return allCategorie;
+
+    return await handleApiResponse(res);
   } catch (error) {
-    console.error("Error loading categorieId from API:", error);
-    return [];
+    console.error("Error loading category:", error);
+    return null;
   }
 };
 
