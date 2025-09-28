@@ -9,9 +9,18 @@ const apiMedia = async (mediaId) => {
       },
       next: { revalidate: 1000},
     });
-    const allMedia = await res.json();
-    const renderUrl = allMedia?.guid?.rendered;
-    return renderUrl;
+    if (!res.ok) {
+      return null;
+    }
+    const m = await res.json();
+    // Prefer source_url; fall back to sizes/full or guid as last resort
+    const sourceUrl =
+      m?.source_url ||
+      m?.media_details?.sizes?.full?.source_url ||
+      m?.media_details?.sizes?.large?.source_url ||
+      m?.guid?.rendered ||
+      null;
+    return sourceUrl;
   } catch (error) {
     console.error("Error loading MediaId from API:", error);
     return [];

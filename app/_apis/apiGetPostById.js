@@ -1,4 +1,4 @@
-import { BASE_URL } from "./apisConfig";
+import { BASE_URL, API_HEADERS } from "./apisConfig";
 
 const apiGetPostById = async (postId) => {
   try {

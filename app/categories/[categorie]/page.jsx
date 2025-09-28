@@ -48,8 +48,10 @@ export async function generateMetadata({ params }) {
 
 export default async function Page({ params }) {
   const { categorie } = await params;
-  const posts = await apiPostesCategorie(categorie);
+  // Fetch category first to resolve ID, then fetch posts by ID for reliability
   const allCategorie = await apiGetCategorie(categorie);
+  const categorieId = allCategorie?.id ?? categorie; // fallback to slug if id missing
+  const posts = await apiPostesCategorie(categorieId);
   const renderName = allCategorie?.name;
 
   // Ensure posts is an array before using slice

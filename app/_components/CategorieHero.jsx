@@ -9,8 +9,10 @@ async function CategorieHero({ posts, categoriePage }) {
 
   const postsWithImages = await Promise.all(
     firstFourPosts.map(async (post) => {
-      let imageUrl = null;
-      if (post.featured_media) {
+      // Prefer pre-resolved imageUrl if available from internal API route
+      let imageUrl = post.imageUrl || null;
+      // Fallback: resolve via media endpoint if only featured_media (ID) exists
+      if (!imageUrl && post.featured_media) {
         imageUrl = await apiMedia(post.featured_media);
       }
       return { ...post, imageUrl };
