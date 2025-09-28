@@ -1,3 +1,5 @@
+"use cache";
+
 import Image from "next/image";
 import apiGetCategorie from "../../_apis/apiGetCategorie";
 import apiPostesCategorie from "../../_apis/apiPostesCategorie";
