@@ -3,7 +3,7 @@ import { BASE_URL, API_HEADERS } from "./apisConfig";
 const apiPostesCategorie = async (categorieId) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/wp-json/wp/v2/posts?categories=${categorieId}&_embed=true&per_page=40`,
+      `${BASE_URL}/wp-json/wp/v2/posts?categories=${categorieId}&_embed=true&per_page=10`,
       {
         headers: API_HEADERS,
         next: { revalidate: 1000 },
