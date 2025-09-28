@@ -13,9 +13,9 @@ async function getPostData(slug) {
   const post = await apiGetPostBySlug(slug);
   if (!post) return null;
 
-  // Get tags names from _embedded data
-  const tagNames =
-    post?._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
+  // Get tag names (prefer embedded terms; fallback to `post.tags` from internal API)
+  const embeddedTags = post?._embedded?.["wp:term"]?.[1]?.map((tag) => tag.name) || [];
+  const tagNames = embeddedTags.length > 0 ? embeddedTags : Array.isArray(post?.tags) ? post.tags : [];
 
   // Get featured image from _embedded data
   const featuredImageUrl =
@@ -34,10 +34,17 @@ async function getPostData(slug) {
       sidebarPosts = catPosts
         .filter((p) => p.id !== post.id)
         .slice(0, 6)
-        .map((p) => ({
-          ...p,
-          imageUrl: p?._embedded?.["wp:featuredmedia"]?.[0]?.source_url || null,
-        }));
+        .map((p) => {
+          const resolvedImage =
+            p?.imageUrl ||
+            p?.featuredMedia ||
+            p?._embedded?.["wp:featuredmedia"]?.[0]?.source_url ||
+            null;
+          return {
+            ...p,
+            imageUrl: resolvedImage,
+          };
+        });
     } catch (_) {}
   }
 
