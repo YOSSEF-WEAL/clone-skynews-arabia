@@ -10,13 +10,13 @@ const apiPostesCategorie = async (categorieId) => {
       }
     );
 
+    console.log("Cache status:", res.headers.get("x-vercel-cache")); 
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     const posts = await res.json();
-    console.log("Cache status:", res.headers.get("x-nextjs-cache"));
 
     // Transform posts to include required data
     return posts.map((post) => ({
