@@ -6,7 +6,7 @@ const categoriesData = async () => {
       `${BASE_URL}/wp-json/wp/v2/categories?per_page=100&hide_empty=true`,
       {
         headers: API_HEADERS,
-        next: { revalidate: 3600 },
+        next: { revalidate: 1000},
       }
     );
 

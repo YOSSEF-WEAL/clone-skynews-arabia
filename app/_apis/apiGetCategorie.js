@@ -6,7 +6,7 @@ const apiGetCategorie = async (categorieId) => {
       `${BASE_URL}/wp-json/wp/v2/categories/${categorieId}`,
       {
         headers: API_HEADERS,
-        next: { revalidate: 3600 },
+        next: { revalidate: 1000},
       }
     );
 

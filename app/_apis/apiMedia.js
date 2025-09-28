@@ -7,6 +7,7 @@ const apiMedia = async (mediaId) => {
         Authorization: `Bearer ${process.env.NEXT_API_KEY}`,
         "Content-Type": "application/json",
       },
+      next: { revalidate: 1000},
     });
     const allMedia = await res.json();
     const renderUrl = allMedia?.guid?.rendered;

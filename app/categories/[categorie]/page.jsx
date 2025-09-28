@@ -1,5 +1,3 @@
-"use cache";
-
 import Image from "next/image";
 import apiGetCategorie from "../../_apis/apiGetCategorie";
 import apiPostesCategorie from "../../_apis/apiPostesCategorie";
@@ -49,7 +47,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
-  const { categorie } = params;
+  const { categorie } = await params;
   const posts = await apiPostesCategorie(categorie);
   const allCategorie = await apiGetCategorie(categorie);
   const renderName = allCategorie?.name;

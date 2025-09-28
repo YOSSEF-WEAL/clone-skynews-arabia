@@ -3,7 +3,11 @@ import { BASE_URL } from "./apisConfig";
 const apiGetPostById = async (postId) => {
   try {
     const res = await fetch(
-      `${BASE_URL}/wp-json/wp/v2/posts/${postId}?_fields=id,slug`
+      `${BASE_URL}/wp-json/wp/v2/posts/${postId}?_fields=id,slug`,
+       {
+              headers: API_HEADERS,
+              next: { revalidate: 1000},
+            }
     );
     const post = await res.json();
 

@@ -4,7 +4,7 @@ const apiGetTagById = async (tagId) => {
   try {
     const res = await fetch(`${BASE_URL}/wp-json/wp/v2/tags/${tagId}`, {
       headers: API_HEADERS,
-      next: { revalidate: 50000 },
+      next: { revalidate: 1000 },
     });
     const allTag = await res.json();
     const tagName = await allTag.name;

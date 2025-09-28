@@ -6,17 +6,17 @@ const apiPostesCategorie = async (categorieId) => {
       `${BASE_URL}/wp-json/wp/v2/posts?categories=${categorieId}&_embed=true&per_page=40`,
       {
         headers: API_HEADERS,
-        next: { revalidate: 50000 },
+        next: { revalidate: 1000 },
       }
     );
 
-    // console.log("Fetched from API at:", new Date().toISOString());
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     const posts = await res.json();
+    console.log("Cache status:", res.headers.get("x-nextjs-cache"));
 
     // Transform posts to include required data
     return posts.map((post) => ({

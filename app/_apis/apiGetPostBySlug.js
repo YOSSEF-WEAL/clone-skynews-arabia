@@ -6,7 +6,7 @@ const apiGetPostBySlug = async (slug) => {
       `${BASE_URL}/wp-json/wp/v2/posts?slug=${slug}&_embed=true`,
       {
         headers: API_HEADERS,
-        next: { revalidate: 50000 },
+        next: { revalidate: 1000 },
       }
     );
     const posts = await res.json();
