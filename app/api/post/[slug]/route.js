@@ -8,8 +8,16 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Missing slug' }, { status: 400 });
   }
 
+  const headers = new Headers();
+  headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=60');
+  headers.set('Content-Type', 'application/json');
+
   try {
-    const wpBase = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || process.env.WORDPRESS_API_URL || 'https://a3raff.com/next';
+    const wpBase =
+      process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
+      process.env.WORDPRESS_API_URL ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      'http://localhost:3000';
     const postsUrl = `${wpBase}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed=true`;
 
     const wpHeaders = {

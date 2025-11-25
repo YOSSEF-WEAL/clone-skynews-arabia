@@ -9,7 +9,11 @@ export async function GET(request, { params }) {
   const perPage = searchParams.get('per_page') || 10;
 
   try {
-    const wpBase = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || process.env.WORDPRESS_API_URL || 'https://a3raff.com/next';
+    const wpBase =
+      process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
+      process.env.WORDPRESS_API_URL ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      'http://localhost:3000';
     const postsUrl = `${wpBase}/wp-json/wp/v2/posts`;
     const wpHeaders = {
       Accept: 'application/json',
