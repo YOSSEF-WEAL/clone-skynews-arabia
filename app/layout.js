@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./_components/Header";
+import { getSiteUrl } from "./_utils/siteUrl";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,9 +13,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = getSiteUrl();
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Clone Skynews Arabia",
   description: "the clone of skynews arabia website",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({ children }) {

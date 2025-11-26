@@ -1,13 +1,14 @@
 import { useId } from "react";
 import { Search } from "lucide-react";
+import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
-import categoriesData from "../_apis/apiCategories";
-import Link from "next/link";
+import apiMenu from "../_apis/apiMenu";
+import Navigation from "./Navigation";
 
 async function Header() {
   const id = useId();
-  const categories = await categoriesData();
+  const menuItems = await apiMenu(75); // Menu ID 75
 
   return (
     <>
@@ -19,10 +20,11 @@ async function Header() {
               <img
                 className="w-[200px] md:w-2xs"
                 src="/header_logo_color.svg"
+                alt="Logo"
               />
             </Link>
             <div className="*:not-first:mt-2">
-              <div className="relative bg-white rounded-md">
+              <div className="relative bg-white rounded-md ">
                 <Input
                   id={id}
                   className="peer ps-9"
@@ -35,17 +37,7 @@ async function Header() {
               </div>
             </div>
           </div>
-          <nav className="w-full bg-white p-2 mt-2 rounded-lg flex flex-row overflow-x-auto gap-3 h-14">
-            {categories?.map((item) => (
-              <Link
-                className="px-3 py-2 text-nowrap text-base font-semibold transition-all hover:border-b-3 border-primary"
-                key={item.id}
-                href={`/categories/${item.id}`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+          <Navigation menuItems={menuItems} />
         </div>
       </header>
     </>

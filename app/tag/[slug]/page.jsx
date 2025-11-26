@@ -1,25 +1,25 @@
 import { Suspense } from "react";
-import apiGetCategorie from "../../_apis/apiGetCategorie";
+import apiGetTag from "../../_apis/apiGetTag";
 import ListSkeleton from "../../_components/ListSkeleton";
-import CategoryPostsList from "../../_components/CategoryPostsList";
+import TagPostsList from "../../_components/TagPostsList";
 
 export async function generateMetadata({ params }) {
-  const { categorie } = await params;
-  let allCategorie = null;
+  const { slug } = await params;
+  let tagData = null;
   try {
-    allCategorie = await apiGetCategorie(categorie);
+    tagData = await apiGetTag(slug);
   } catch (_) {}
 
-  const name = allCategorie?.name || "";
-  const description = allCategorie?.description?.trim()
-    ? allCategorie.description
+  const name = tagData?.name || "";
+  const description = tagData?.description?.trim()
+    ? tagData.description
     : name
-    ? `آخر الأخبار من قسم ${name}`
+    ? `آخر الأخبار عن ${name}`
     : "آخر الأخبار والمستجدات";
 
   const title = name ? `${name} | الأخبار` : "الأخبار";
   const logoPath = "/header_logo_color.svg";
-  const canonicalPath = `/categories/${categorie}`;
+  const canonicalPath = `/tag/${slug}`;
 
   return {
     title,
@@ -46,22 +46,22 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params, searchParams }) {
-  const { categorie } = await params;
+  const { slug } = await params;
   const resolvedSearchParams = await searchParams;
   const currentPage = parseInt(resolvedSearchParams?.page || "1");
-  
-  // Fetch category first to resolve ID
-  const allCategorie = await apiGetCategorie(categorie);
-  const categorieId = allCategorie?.id ?? categorie;
-  const renderName = allCategorie?.name;
+
+  // Fetch tag first to resolve ID
+  const tagData = await apiGetTag(slug);
+  const tagId = tagData?.id ?? slug;
+  const renderName = tagData?.name;
 
   return (
     <Suspense key={currentPage} fallback={<ListSkeleton />}>
-      <CategoryPostsList 
-        categorieId={categorieId} 
-        currentPage={currentPage} 
-        renderName={renderName} 
-        categorieSlug={categorie}
+      <TagPostsList
+        tagId={tagId}
+        currentPage={currentPage}
+        renderName={renderName}
+        tagSlug={slug}
       />
     </Suspense>
   );

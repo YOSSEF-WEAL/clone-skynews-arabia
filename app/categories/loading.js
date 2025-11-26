@@ -1,9 +1,5 @@
-function loading() {
-  return (
-    <div className="mt-5 w-full flex justify-center items-center">
-      <span className="loader"></span>
-    </div>
-  );
-}
+import LoadingSkeleton from "../_components/LoadingSkeleton";
 
-export default loading;
+export default function Loading() {
+  return <LoadingSkeleton />;
+}

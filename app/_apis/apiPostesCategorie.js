@@ -1,7 +1,7 @@
 // Using internal API route; external BASE_URL and headers are not needed here
 import { headers as nextHeaders } from "next/headers";
 
-const apiPostesCategorie = async (categorieId) => {
+const apiPostesCategorie = async (categorieId, page = 1, perPage = 20) => {
   try {
     // Guard: if category is missing/invalid, do not call the API
     if (
@@ -12,7 +12,7 @@ const apiPostesCategorie = async (categorieId) => {
       String(categorieId).toLowerCase() === 'null'
     ) {
       console.warn('[apiPostesCategorie] skipped due to invalid categorieId:', categorieId);
-      return [];
+      return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
     }
     // Use internal API route to benefit from Edge caching and filtered payload
     // Prefer building base URL from the current request headers (server components)
@@ -25,7 +25,7 @@ const apiPostesCategorie = async (categorieId) => {
         (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
     const encodedId = encodeURIComponent(String(categorieId));
-    const requestUrl = `${baseUrl}/api/posts/${encodedId}?per_page=40`;
+    const requestUrl = `${baseUrl}/api/posts/${encodedId}?per_page=${perPage}&page=${page}`;
     const res = await fetch(
       requestUrl,
       {
@@ -41,15 +41,16 @@ const apiPostesCategorie = async (categorieId) => {
       // If internal route returns 404 (e.g., unknown category), do not break the page
       const errText = await res.text().catch(() => "");
       console.error("[apiPostesCategorie] HTTP error", res.status, requestUrl, errText);
-      if (res.status === 404) return [];
-      return [];
+      if (res.status === 404) return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
+      return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
     }
 
     const data = await res.json();
     const posts = Array.isArray(data?.posts) ? data.posts : [];
+    const pagination = data?.pagination || { currentPage: 1, totalPages: 0, totalItems: 0 };
 
     // Normalize to the previously expected structure where possible
-    return posts.map((post) => {
+    const normalizedPosts = posts.map((post) => {
       const featuredUrl = post.featuredMedia || null;
       return {
         // Keep raw fields
@@ -83,9 +84,14 @@ const apiPostesCategorie = async (categorieId) => {
         tags: [],
       };
     });
+    
+    return {
+      posts: normalizedPosts,
+      pagination
+    };
   } catch (error) {
     console.error("Error loading posts from API:", error);
-    return [];
+    return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
   }
 };
 
