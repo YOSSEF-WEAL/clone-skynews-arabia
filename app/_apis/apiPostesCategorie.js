@@ -7,12 +7,18 @@ const apiPostesCategorie = async (categorieId, page = 1, perPage = 20) => {
     if (
       categorieId === undefined ||
       categorieId === null ||
-      categorieId === '' ||
-      String(categorieId).toLowerCase() === 'undefined' ||
-      String(categorieId).toLowerCase() === 'null'
+      categorieId === "" ||
+      String(categorieId).toLowerCase() === "undefined" ||
+      String(categorieId).toLowerCase() === "null"
     ) {
-      console.warn('[apiPostesCategorie] skipped due to invalid categorieId:', categorieId);
-      return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
+      console.warn(
+        "[apiPostesCategorie] skipped due to invalid categorieId:",
+        categorieId
+      );
+      return {
+        posts: [],
+        pagination: { currentPage: 1, totalPages: 0, totalItems: 0 },
+      };
     }
     // Use internal API route to benefit from Edge caching and filtered payload
     // Prefer building base URL from the current request headers (server components)
@@ -22,32 +28,52 @@ const apiPostesCategorie = async (categorieId, page = 1, perPage = 20) => {
     const baseUrl = host
       ? `${xfProto}://${host}`
       : process.env.NEXT_PUBLIC_SITE_URL ||
-        (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+        (process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : "http://localhost:3000");
 
     const encodedId = encodeURIComponent(String(categorieId));
     const requestUrl = `${baseUrl}/api/posts/${encodedId}?per_page=${perPage}&page=${page}`;
-    const res = await fetch(
-      requestUrl,
-      {
-        // Let the route's Cache-Control drive caching at the edge
-        // You can tweak revalidate if needed for ISR on server fetch
-        next: { revalidate: 0 },
-      }
-    );
+    const res = await fetch(requestUrl, {
+      // Let the route's Cache-Control drive caching at the edge
+      // You can tweak revalidate if needed for ISR on server fetch
+      next: { revalidate: 0 },
+    });
 
-    console.log("[apiPostesCategorie] url:", requestUrl, "cache:", res.headers.get("x-vercel-cache")); 
+    console.log(
+      "[apiPostesCategorie] url:",
+      requestUrl,
+      "cache:",
+      res.headers.get("x-vercel-cache")
+    );
 
     if (!res.ok) {
       // If internal route returns 404 (e.g., unknown category), do not break the page
       const errText = await res.text().catch(() => "");
-      console.error("[apiPostesCategorie] HTTP error", res.status, requestUrl, errText);
-      if (res.status === 404) return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
-      return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
+      console.error(
+        "[apiPostesCategorie] HTTP error",
+        res.status,
+        requestUrl,
+        errText
+      );
+      if (res.status === 404)
+        return {
+          posts: [],
+          pagination: { currentPage: 1, totalPages: 0, totalItems: 0 },
+        };
+      return {
+        posts: [],
+        pagination: { currentPage: 1, totalPages: 0, totalItems: 0 },
+      };
     }
 
     const data = await res.json();
     const posts = Array.isArray(data?.posts) ? data.posts : [];
-    const pagination = data?.pagination || { currentPage: 1, totalPages: 0, totalItems: 0 };
+    const pagination = data?.pagination || {
+      currentPage: 1,
+      totalPages: 0,
+      totalItems: 0,
+    };
 
     // Normalize to the previously expected structure where possible
     const normalizedPosts = posts.map((post) => {
@@ -61,8 +87,14 @@ const apiPostesCategorie = async (categorieId, page = 1, perPage = 20) => {
         categories: post.categories || [],
 
         // Keep title/excerpt compatible with prior usage (title.rendered, excerpt.rendered)
-        title: typeof post.title === "string" ? { rendered: post.title } : post.title,
-        excerpt: typeof post.excerpt === "string" ? { rendered: post.excerpt } : post.excerpt,
+        title:
+          typeof post.title === "string"
+            ? { rendered: post.title }
+            : post.title,
+        excerpt:
+          typeof post.excerpt === "string"
+            ? { rendered: post.excerpt }
+            : post.excerpt,
 
         // Convenience fields used by UI
         imageUrl: featuredUrl,
@@ -84,14 +116,17 @@ const apiPostesCategorie = async (categorieId, page = 1, perPage = 20) => {
         tags: [],
       };
     });
-    
+
     return {
       posts: normalizedPosts,
-      pagination
+      pagination,
     };
   } catch (error) {
     console.error("Error loading posts from API:", error);
-    return { posts: [], pagination: { currentPage: 1, totalPages: 0, totalItems: 0 } };
+    return {
+      posts: [],
+      pagination: { currentPage: 1, totalPages: 0, totalItems: 0 },
+    };
   }
 };
 

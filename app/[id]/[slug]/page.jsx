@@ -169,7 +169,7 @@ export default async function PostBySlug({ params }) {
           {!featuredImageUrl ? (
             <div className="relative w-full h-72 md:h-110 mb-6 bg-[url(/blace-holder.jpg)] bg-no-repeat bg-cover bg-center"></div>
           ) : (
-            <div className="relative w-full h-72 md:h-110 mb-6 bg-[url(/blace-holder.jpg)] bg-no-repeat bg-cover bg-center overflow-hidden rounded-lg ">
+            <div className="relative w-full h-72 md:h-130 mb-6 bg-[url(/blace-holder.jpg)] bg-no-repeat bg-cover bg-center overflow-hidden rounded-lg ">
               <Image
                 src={featuredImageUrl}
                 alt={title}

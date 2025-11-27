@@ -10,7 +10,7 @@ export default function ListNews({ posts, categoriePage }) {
           {categoriePage || "اخر الاخبار"}
         </p>
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-around gap-3 ">
+      <div className="w-full flex flex-row flex-wrap items-end gap-3 ">
         {posts.map((post) => (
           <article key={post.id} className="relative w-[48%] md:w-[32%] gap-2">
             {post && (
@@ -33,7 +33,7 @@ export default function ListNews({ posts, categoriePage }) {
                 <div className="flex flex-col justify-end items-start mt-2 w-full  text-gray-900">
                   <Link
                     href={`/${post.id}/${post.slug}`}
-                    className="line-clamp-2 text-xl md:text-2xl font-bold"
+                    className="line-clamp-2 text-xl md:text-1xl font-bold"
                   >
                     {he.decode(post.title.rendered)}
                   </Link>

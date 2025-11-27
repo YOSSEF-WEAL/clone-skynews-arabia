@@ -42,7 +42,7 @@ async function CategorieHero({ posts, categoriePage }) {
             )}
             <Link href={`/${post1.id}/${post1.slug}`}>
               <div className="flex flex-col justify-end items-start p-4 z-10 absolute h-full w-full bg-gradient-to-b from-slate-50/0 to-gray-800 text-white">
-                <h4 className="line-clamp-2 text-xl md:text-2xl font-bold">
+                <h4 className="line-clamp-2 text-xl md:text-1xl font-bold">
                   {he.decode(post1.title.rendered)}
                 </h4>
                 {/* <div
@@ -74,7 +74,7 @@ async function CategorieHero({ posts, categoriePage }) {
             )}
             <Link href={`/${post2.id}/${post2.slug}`}>
               <div className="flex flex-col justify-end items-start p-4 z-10 absolute h-full w-full bg-gradient-to-b from-slate-50/0 to-gray-800 text-white">
-                <h4 className="line-clamp-2 text-xl md:text-2xl font-bold">
+                <h4 className="line-clamp-2 text-xl md:text-1xl font-bold">
                   {he.decode(post2.title.rendered)}
                 </h4>
               </div>
@@ -100,7 +100,7 @@ async function CategorieHero({ posts, categoriePage }) {
             )}
             <Link href={`/${post3.id}/${post3.slug}`}>
               <div className="flex flex-col justify-end items-start p-4 z-10 absolute h-full w-full bg-gradient-to-b from-slate-50/0 to-gray-800 text-white">
-                <h4 className="line-clamp-2 text-xl md:text-2xl font-bold">
+                <h4 className="line-clamp-2 text-xl md:text-1xl font-bold">
                   {he.decode(post3.title.rendered)}
                 </h4>
               </div>
@@ -126,7 +126,7 @@ async function CategorieHero({ posts, categoriePage }) {
             )}
             <Link href={`/${post4.id}/${post4.slug}`}>
               <div className="flex flex-col justify-end items-start p-4 z-10 absolute h-full w-full bg-gradient-to-b from-slate-50/0 to-gray-800 text-white">
-                <h4 className="line-clamp-2 text-xl md:text-2xl font-bold">
+                <h4 className="line-clamp-2 text-xl md:text-1xl font-bold">
                   {he.decode(post4.title.rendered)}
                 </h4>
               </div>
