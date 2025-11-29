@@ -237,9 +237,59 @@ export default async function PostBySlug({ params }) {
                 )
             )}
           </div>
+
+          {/* Next Article Section - Compact Button */}
+          {sidebarPosts.length > 0 && (
+            <div className="mt-8 pt-6 border-t-2 border-gray-300">
+              <h3 className="text-lg font-bold mb-4">الخبر التالي</h3>
+              <Link
+                href={`/${sidebarPosts[0].id}/${sidebarPosts[0].slug}`}
+                className="flex items-center gap-4 p-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all group border-2 border-transparent hover:border-primary"
+              >
+                {/* Image */}
+                <div className="relative w-24 h-24 flex-shrink-0 bg-[url(/blace-holder.jpg)] bg-no-repeat bg-cover bg-center overflow-hidden rounded-lg">
+                  {sidebarPosts[0].imageUrl && (
+                    <Image
+                      src={sidebarPosts[0].imageUrl}
+                      alt={he.decode(sidebarPosts[0].title?.rendered || "")}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  )}
+                </div>
+
+                {/* Title */}
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+                    {he.decode(sidebarPosts[0].title?.rendered || "")}
+                  </h4>
+                </div>
+
+                {/* Arrow Icon */}
+                <div className="flex-shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary group-hover:translate-x-1 transition-transform"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                </div>
+              </Link>
+            </div>
+          )}
         </article>
 
-        <aside className="lg:col-start-10 lg:col-span-3 space-y-4">
+        <aside className="lg:col-start-10 lg:col-span-3 space-y-4 lg:sticky lg:top-24 lg:self-start">
           <h2 className="text-xl font-bold">أبرز الأخبار</h2>
           <div className="space-y-4">
             {sidebarPosts.map((sp) => (

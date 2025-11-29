@@ -10,7 +10,7 @@ export default function ListNews({ posts, categoriePage }) {
           {categoriePage || "اخر الاخبار"}
         </p>
       </div>
-      <div className="w-full flex flex-row flex-wrap items-end gap-3 ">
+      <div className="w-full flex flex-row flex-wrap gap-3  items-start">
         {posts.map((post) => (
           <article key={post.id} className="relative w-[48%] md:w-[32%] gap-2">
             {post && (
