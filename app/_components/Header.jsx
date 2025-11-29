@@ -16,7 +16,7 @@ async function Header() {
       <header className="px-3 md:px-10 py-5 fixed z-40 top-0 left-0 w-full flex items-center justify-center bg-[url(/header_bg_v2.jpg)] bg-center bg-cover shadow-md">
         <div className="w-full flex flex-col gap-2">
           {/* Top Bar: Logo & Search/Menu */}
-          <div className="flex items-center justify-between gap-3 w-full flex-row-reverse md:flex-row">
+          <div className="flex items-center justify-between gap-3 w-full flex-row md:flex-row">
             {/* Logo */}
             <Link href={"/"}>
               <img
