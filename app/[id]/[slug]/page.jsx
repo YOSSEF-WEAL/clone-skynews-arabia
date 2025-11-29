@@ -180,7 +180,7 @@ export default async function PostBySlug({ params }) {
             </div>
           )}
 
-          <div className="w-full my-2 flex items-center justify-between gap-3 mb-8">
+          <div className="w-full my-2 flex flex-col lg:flex-wrap items-center justify-between gap-3 mb-8">
             <Button variant={"gost"}>
               <Avatar>
                 <AvatarImage src={post?.authorImage} />

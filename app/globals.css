@@ -88,6 +88,23 @@
   opacity: 0.8;
 }
 
+/* Ensure images and embeds are responsive in rich content */
+.rich img,
+.rich figure,
+.rich iframe,
+.rich video,
+.prose img,
+.prose figure,
+.prose iframe,
+.prose video {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.rich figure {
+  margin: 1rem 0;
+}
+
 @layer components {
   .prose {
     @apply text-base text-gray-900;
